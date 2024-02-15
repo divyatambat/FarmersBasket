@@ -22,7 +22,7 @@ func NewProductRepo(db *sql.DB) repository.ProductStorer {
 func (ps *productStore) GetProductByID(ctx context.Context, tx repository.Transaction, productID int64) (repository.Product, error) {
 	var product repository.Product
 
-	row := ps.db.QueryRowContext(ctx, `SELECT * FROM products WHERE id = $1`, productID)
+	row := ps.db.QueryRowContext(ctx, `SELECT * FROM product WHERE id = $1`, productID)
 	err := row.Scan(&product.ID, &product.Name, &product.Description, &product.Category, &product.Price, &product.Is_seasonal, &product.Quantity)
 	if err == sql.ErrNoRows {
 		return repository.Product{}, errors.New("product not found")
@@ -36,7 +36,7 @@ func (ps *productStore) GetProductByID(ctx context.Context, tx repository.Transa
 func (ps *productStore) ListProducts(ctx context.Context, tx repository.Transaction) ([]repository.Product, error) {
 	productList := make([]repository.Product, 0)
 
-	rows, err := ps.db.QueryContext(ctx, `SELECT * FROM products`)
+	rows, err := ps.db.QueryContext(ctx, `SELECT * FROM product`)
 	if err != nil {
 		return productList, fmt.Errorf("error listing products: %w", err)
 	}

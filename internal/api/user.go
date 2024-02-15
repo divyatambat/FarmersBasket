@@ -30,7 +30,7 @@ func getUserHandler(userSvc user.Service) http.HandlerFunc {
 			return
 		}
 
-		response, err := userSvc.GetUserByID(ctx, nil, uint(userID))
+		response, err := userSvc.GetUserByID(ctx, uint(userID))
 		if err != nil {
 			logger.Errorw(ctx, "error occured while fetching user info",
 				zap.Error(err),
@@ -62,8 +62,19 @@ func listUsersHandler(userSvc user.Service) http.HandlerFunc {
 	}
 }
 
-// func RegisterUserHandlers(router *mux.Router, userSvc user.Service) {
-// 	// routes using Gorilla Mux syntax
-// 	router.HandleFunc("/users/{id}", getUserHandler(userSvc))
-// 	router.HandleFunc("/users", listUsersHandler(userSvc))
-// }
+func CreateUserHandlers(userSvc user.Service) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		ctx := r.Context()
+		response, err := userSvc.CreateUser(ctx)
+		if err != nil {
+			logger.Errorw(ctx, "error occured while fetching user list",
+				zap.Error(err),
+			)
+
+			middleware.ErrorResponse(ctx, w, http.StatusInternalServerError, apperrors.ErrInternalServerError)
+			return
+		}
+
+		middleware.SuccessResponse(ctx, w, http.StatusOK, response)
+	}
+}

@@ -61,17 +61,25 @@ func validateUpdateOrderStatusRequest(RequestOrderStatus, DBOrderStatus string) 
 
 func MapOrderRepoToOrderDto(order repository.Order, orderItems ...repository.OrderItem) dto.Order {
 
-	productInfo := make([]dto.ProductInfo, 0)
+	orderInfo := make([]dto.ProductInfo, 0)
 	for _, orderItem := range orderItems {
-		productInfo = append(productInfo, dto.ProductInfo{
+		orderInfo = append(orderInfo, dto.ProductInfo{
 			ID:       orderItem.Product_ID,
 			Quantity: orderItem.Quantity,
 		})
 	}
 
 	return dto.Order{
-		ID:          int64(order.ID),
-		TotalAmount: order.Total_Amount,
-		OrderStatus: order.Order_Status,
+		ID:              int64(order.ID),
+		TotalAmount:     order.Total_Amount,
+		OrderStatus:     order.Order_Status,
+		CustomerID:      order.Customer_ID,
+		ProductID:       order.Product_ID,
+		OrderDate:       order.Order_Date,
+		PaymentOption:   order.Payment_option,
+		PaymentStatus:   order.Payment_status,
+		DeliveryAddress: order.Delivery_Address,
+		OrderType:       order.Order_type,
+		Quantity:        int64(order.Quantity),
 	}
 }

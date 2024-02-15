@@ -16,6 +16,76 @@ type Service struct {
 	mock.Mock
 }
 
+// GetProductByID implements product.Service.
+func (*Service) GetProductByID(ctx context.Context, productID int64) (dto.Product, error) {
+	panic("unimplemented")
+}
+
+// ListProducts implements product.Service.
+func (*Service) ListProducts(ctx context.Context) ([]dto.Product, error) {
+	panic("unimplemented")
+}
+
+// UpdateProductQuantity implements product.Service.
+func (*Service) UpdateProductQuantity(ctx context.Context, productsQuantityMap map[int64]int64) error {
+	panic("unimplemented")
+}
+
+// CreateOrder implements order.Service.
+func (*Service) CreateOrder(ctx context.Context, orderDetails dto.CreateOrderRequest) (dto.Order, error) {
+	panic("unimplemented")
+}
+
+// GetOrderDetailsByID implements order.Service.
+func (*Service) GetOrderDetailsByID(ctx context.Context, orderID int64) (dto.Order, error) {
+	panic("unimplemented")
+}
+
+// ListOrders implements order.Service.
+func (*Service) ListOrders(ctx context.Context) ([]dto.Order, error) {
+	panic("unimplemented")
+}
+
+// UpdateOrderStatus implements order.Service.
+func (*Service) UpdateOrderStatus(ctx context.Context, orderID int64, status string) (dto.Order, error) {
+	panic("unimplemented")
+}
+
+// UpdatePaymentStatus implements order.Service.
+func (*Service) UpdatePaymentStatus(ctx context.Context, orderID int64, status string) (dto.Order, error) {
+	panic("unimplemented")
+}
+
+// CreateUser provides a mock function with given fields: ctx
+func (_m *Service) CreateUser(ctx context.Context) ([]dto.User, error) {
+	ret := _m.Called(ctx)
+
+	if len(ret) == 0 {
+		panic("no return value specified for CreateUser")
+	}
+
+	var r0 []dto.User
+	var r1 error
+	if rf, ok := ret.Get(0).(func(context.Context) ([]dto.User, error)); ok {
+		return rf(ctx)
+	}
+	if rf, ok := ret.Get(0).(func(context.Context) []dto.User); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]dto.User)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetUserByID provides a mock function with given fields: ctx, tx, userID
 func (_m *Service) GetUserByID(ctx context.Context, tx repository.Transaction, userID uint) (dto.User, error) {
 	ret := _m.Called(ctx, tx, userID)

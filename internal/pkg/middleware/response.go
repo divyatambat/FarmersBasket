@@ -12,7 +12,7 @@ import (
 )
 
 type response struct {
-	ErrorCode    int         `json:"error_code"`
+	ErrorCode    int         `json:"error_code,omitempty"`
 	ErrorMessage string      `json:"error_message"`
 	Data         interface{} `json:"data"`
 }

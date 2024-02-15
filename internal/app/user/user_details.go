@@ -5,14 +5,23 @@ import (
 	"github.com/divyatambat/FarmersBasket/internal/repository"
 )
 
-// Define your user model and related types here (UserType, Address, etc.)
-
 func MapRepoObjectToDto(repoObj repository.User) dto.User {
-	// Implement mapping logic based on your user model and DTO definitions
-	return dto.User{}
+	return dto.User{
+		ID:          int64(repoObj.ID),
+		Name:        repoObj.Name,
+		Email:       repoObj.Email,
+		Password:    repoObj.Password,
+		PhoneNumber: repoObj.PhoneNumber,
+		UserType:    repoObj.UserType,
+	}
 }
 
 func MapDtoObjectToRepo(user dto.User) repository.User {
-	// Implement mapping logic based on your user model and DTO definitions
-	return repository.User{}
+	return repository.User{
+		Name:        user.Name,
+		Email:       user.Email,
+		Password:    user.Password,
+		PhoneNumber: user.PhoneNumber,
+		UserType:    user.UserType,
+	}
 }

@@ -61,14 +61,6 @@ func (bt *BaseTransaction) Rollback() error {
 	return bt.tx.Rollback()
 }
 
-func (bt *BaseRepository) initiateQueryExecutor(tx Transaction) (QueryExecutor interface{}) {
-	if tx != nil {
-		bt := tx.(*BaseTransaction)
-		return bt.tx
-	}
-	return bt.DB
-}
-
 type Transaction interface {
 	Commit() error
 	Rollback() error

@@ -23,10 +23,12 @@ func (os *orderStore) GetOrderByID(ctx context.Context, orderID int64) (reposito
 	var order repository.Order
 
 	row := os.db.QueryRowContext(ctx, `
-		SELECT o.*, u.name AS customer_name, p.name AS product_name
+		SELECT o.id, o.customer_id, o.product_id,o.order_date, o.total_amount, 
+		o.payment_option, o.payment_status, o.order_status, o.delivery_address, 
+		o.order_type, o.quantity, u.name AS customer_name, p.name AS product_name
 		FROM orders o
-		JOIN users u ON o.customer_id = u.id
-		JOIN products p ON o.product_id = p.id
+		JOIN user u ON o.customer_id = u.id
+		JOIN product p ON o.product_id = p.id
 		WHERE o.id = $1
 	`, orderID)
 	err := row.Scan(&order.ID, &order.Customer_ID, &order.Product_ID, &order.Order_Date, &order.Total_Amount,
@@ -65,8 +67,8 @@ func (os *orderStore) CreateOrder(ctx context.Context, order repository.Order) (
 func (os *orderStore) UpdateOrderStatus(ctx context.Context, orderID int64, status string) error { // Check if transaction is available for prepared statements
 
 	_, err := os.db.ExecContext(ctx, `
-		UPDATE orders SET order_status = 1, updated_at = 2
-		WHERE id = 3
+		UPDATE orders SET order_status = $1, updated_at = $2
+		WHERE id = $3
 	`, status, time.Now(), orderID)
 	if err != nil {
 		return err
@@ -87,11 +89,13 @@ func (os *orderStore) ListOrders(ctx context.Context) ([]repository.Order, error
 	defer rows.Close()
 
 	for rows.Next() {
-		var order repository.Order
+		order := repository.Order{}
 		err := rows.Scan(&order.ID, &order.Order_Date, &order.Total_Amount, &order.Payment_option, &order.Payment_status, &order.Order_Status, &order.Order_type, &order.Delivery_Address, &order.Quantity)
 		if err != nil {
 			return nil, fmt.Errorf("error scanning order row: %w", err)
 		}
+
+		fmt.Println(order)
 		orderList = append(orderList, order)
 	}
 

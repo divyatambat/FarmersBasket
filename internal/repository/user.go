@@ -12,10 +12,10 @@ type UserStorer interface {
 }
 
 type User struct {
-	ID          int64
-	Name        string
-	Email       string
-	Password    string
-	PhoneNumber int64
-	UserType    string
+	ID          int64  `db:"id"`
+	Name        string `db:"name"`
+	Email       string `db:"email"`
+	Password    string `db:"password"`
+	PhoneNumber int64  `db:"phone_number"`
+	UserType    string `db:"user_type"`
 }

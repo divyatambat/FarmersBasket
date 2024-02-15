@@ -18,7 +18,6 @@ func getProductHandler(productSvc product.Service) http.HandlerFunc {
 		ctx := r.Context()
 		vars := mux.Vars(r)
 		rawProductID := vars["id"]
-
 		productID, err := strconv.Atoi(rawProductID)
 		if err != nil {
 			logger.Errorw(ctx, "error occured while converting productID to an integer",
@@ -61,9 +60,3 @@ func listProductHandler(productSvc product.Service) http.HandlerFunc {
 		middleware.SuccessResponse(ctx, w, http.StatusOK, response)
 	}
 }
-
-// func RegisterProductHandlers(router *mux.Router, productSvc product.Service) {
-// 	// routes using Gorilla Mux syntax
-// 	router.HandleFunc("/products/{id}", getProductHandler(productSvc))
-// 	router.HandleFunc("/products", listProductHandler(productSvc))
-// }

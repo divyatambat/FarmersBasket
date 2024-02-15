@@ -12,10 +12,11 @@ type OrderItemStorer interface {
 }
 
 type OrderItem struct {
-	ID          uint `storm:"id,increment"`
+	ID          int64 `storm:"id,increment"`
 	Customer_ID int64
 	Product_ID  int64
 	Quantity    int64
 	Order_Date  time.Time
 	Order_type  string
+	Is_seasonal string
 }

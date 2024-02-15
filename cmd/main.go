@@ -58,7 +58,7 @@ func main() {
 		},
 	)
 
-	// Signal handling for graceful shutdown
+	// handling for graceful shutdown
 	group.Add(run.SignalHandler(ctx, syscall.SIGINT, syscall.SIGTERM))
 
 	// Run the group and handle errors
